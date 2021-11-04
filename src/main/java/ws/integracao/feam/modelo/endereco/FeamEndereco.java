@@ -1,31 +1,50 @@
 package ws.integracao.feam.modelo.endereco;
 
 public class FeamEndereco {
-    private Object mensagem;
-    private FeamEnderecoCompleto objetoResposta;
-    private boolean erro;
-    
-    public Object getMensagem() {
-        return mensagem;
-    }
+	private Integer idMunicipio;
+	private Integer idEstado;
+	private String logradouro;
+	private String bairro;
+	private String ok;
 
-    public void setMensagem(Object mensagem) {
-        this.mensagem = mensagem;
-    }
+	public Integer getIdMunicipio() {
+		return idMunicipio;
+	}
 
-    public FeamEnderecoCompleto getObjetoResposta() {
-        return objetoResposta;
-    }
+	public void setIdMunicipio(Integer idMunicipio) {
+		this.idMunicipio = idMunicipio;
+	}
 
-    public void setObjetoResposta(FeamEnderecoCompleto objetoResposta) {
-        this.objetoResposta = objetoResposta;
-    }
+	public Integer getIdEstado() {
+		return idEstado;
+	}
 
-    public boolean isErro() {
-        return erro;
-    }
+	public void setIdEstado(Integer idEstado) {
+		this.idEstado = idEstado;
+	}
 
-    public void setErro(boolean erro) {
-        this.erro = erro;
-    }
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getOk() {
+		return ok;
+	}
+
+	public void setOk(String ok) {
+		this.ok = ok;
+	}
+	
 }
