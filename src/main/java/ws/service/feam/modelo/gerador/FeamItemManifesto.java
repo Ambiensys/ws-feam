@@ -9,7 +9,7 @@ public class FeamItemManifesto implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private float   quantidade;
+	private Float   quantidade;
 	private String  residuo;
 	private Integer codigoAcondicionamento;
 	private Integer codigoClasse;
@@ -24,11 +24,11 @@ public class FeamItemManifesto implements Serializable {
 	private String  classeDeRisco;
 	private String  numeroONU;
 
-	public float getQuantidade() {
+	public Float getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(float quantidade) {
+	public void setQuantidade(Float quantidade) {
 		this.quantidade = quantidade;
 	}
 

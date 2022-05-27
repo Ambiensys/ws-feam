@@ -10,7 +10,7 @@ public class FeamItemManifestoRetorno {
 	private Integer codigoSequencial;
 	private String justificativa;
 	private Integer codigoInterno;
-	private Integer quantidade;
+	private Float quantidade;
 	private Integer quantidadeRecebida;
 	private String residuo;
 	private Integer codigoAcondicionamento;
@@ -52,11 +52,11 @@ public class FeamItemManifestoRetorno {
 		this.codigoInterno = codigoInterno;
 	}
 
-	public Integer getQuantidade() {
+	public Float getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(Integer quantidade) {
+	public void setQuantidade(Float quantidade) {
 		this.quantidade = quantidade;
 	}
 
