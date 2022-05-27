@@ -1,5 +1,8 @@
 package ws.service.feam.resource;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -13,6 +16,8 @@ import org.jboss.resteasy.reactive.RestHeader;
 import ws.service.feam.exception.FeamException;
 import ws.service.feam.modelo.gerador.FeamGerador;
 import ws.service.feam.modelo.gerador.FeamResposta;
+import ws.service.feam.modelo.login.FeamLogin;
+import ws.service.feam.modelo.login.FeamLoginRespostaWS;
 import ws.service.feam.modelo.manifesto.FeamCancelarMTRResposta;
 import ws.service.feam.service.FeamService;
 
@@ -36,5 +41,13 @@ public class FeamResource {
     @Path("/mtr/cancelar")
     public FeamCancelarMTRResposta cancelarMTR(@RestHeader("Cookie") String cookie, @RestForm String codManifesto, @RestForm String justificativa) throws FeamException {
         return service.cancelarMTR(cookie, codManifesto, justificativa);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/gettoken")
+    public FeamLoginRespostaWS gettoken(FeamLogin feamLogin) throws FeamException, IOException, SQLException {
+        return service.gettoken(feamLogin);
     }
 }

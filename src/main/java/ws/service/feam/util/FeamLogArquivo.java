@@ -23,6 +23,9 @@ public class FeamLogArquivo {
         this.nomeClasse = nomeClasse;
     }
 
+    public FeamLogArquivo() {
+    }
+
     static{
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -41,7 +44,8 @@ public class FeamLogArquivo {
         props.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
         props.setProperty("log4j.appender.stdout.layout.ConversionPattern", "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n");
         props.setProperty("log4j.appender.file", "org.apache.log4j.FileAppender");
-        props.setProperty("log4j.appender.file.File", "C:\\SIGRA\\Log\\LogSigra_${current.date.time}.log");
+        props.setProperty("log4j.appender.file.File", "Z:\\SIGRA\\Log\\LogRobo_${current.date.time}.log");
+
         props.setProperty("log4j.appender.file.Append", "true");
         props.setProperty("log4j.appender.file.layout", "org.apache.log4j.PatternLayout");
         props.setProperty("log4j.appender.file.layout.ConversionPattern", "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n");                        
