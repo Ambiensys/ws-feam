@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.apache.log4j.Logger;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 import ws.service.feam.util.FeamLogArquivo;
 import ws.service.feam.util.FeamMetodosPadrao;
@@ -18,14 +19,25 @@ public class FeamConectaBanco
 {
     FeamLogArquivo logArquivo = new FeamLogArquivo(FeamConectaBanco.class.getName());
     FeamMetodosPadrao metodos = new FeamMetodosPadrao();
+
+    String databasePath = ConfigProvider.getConfig().getValue("caminho.conecta.banco", String.class);    
+    String usuarioConfig = ConfigProvider.getConfig().getValue("usuario.banco", String.class);    
+    String senhaConfig = ConfigProvider.getConfig().getValue("senha.banco", String.class);    
+
+    private String caminho = (databasePath != null && !databasePath.isEmpty() ? databasePath : "jdbc:sqlserver://10.222.0.138:1433;databaseName=SIGRAHOM");
+
+    private String usuario = (usuarioConfig != null && !usuarioConfig.isEmpty() ? usuarioConfig : "sa");
+
+    private String senha = (senhaConfig != null && !senhaConfig.isEmpty() ? senhaConfig : "Ambiensys123");
+
     
     // Variveis Obrigatorias para conexão com o Banco de Dados
     public  Statement stm; //statement é responsável por preparar e realizar pesquisas no banco de dados
     public  ResultSet rs; // responsável por armazenar o resultado de uma pesquisa passada para o Statement
     private String driver  = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; //Responsável por identificar serviço do Banco de Dados
-    private String caminho = "jdbc:sqlserver://10.222.0.138:1433;databaseName=SIGRAPRD"; // Responsável por Setar o Local do Banco de Dados
-    private String usuario = "sigraweb"; //Usuário para acesso do banco
-    private String senha   = "8Ph#%kZD"; //senha pré definida na instalação
+    //private String caminho = "jdbc:sqlserver://10.222.0.138:1433;databaseName=SIGRAPRD"; // Responsável por Setar o Local do Banco de Dados
+    //private String usuario = "sigraweb"; //Usuário para acesso do banco
+    //private String senha   = "8Ph#%kZD"; //senha pré definida na instalação
     public  Connection conn; //Responsável por realizar a conexão com o Banco de Dados 
     
         
