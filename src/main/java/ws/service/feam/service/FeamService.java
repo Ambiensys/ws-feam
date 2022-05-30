@@ -27,13 +27,13 @@ import ws.service.feam.util.FeamLogArquivo;
 
 @ApplicationScoped
 public class FeamService {
-    
-    FeamLogArquivo            logArquivo                = new FeamLogArquivo(FeamService.class.getName());
-    
+
+    FeamLogArquivo logArquivo = new FeamLogArquivo(FeamService.class.getName());
+
     @Inject
     @RestClient
     FeamRestClientService service;
-    
+
     public FeamResposta salvarManifestoLote(String token, String chave, FeamGerador gerador) throws FeamException {
         try {
             token = "Bearer " + token;
@@ -44,10 +44,11 @@ public class FeamService {
         } catch (ProcessingException | WebApplicationException e) {
             e.printStackTrace();
             throw new ErroServicoRemotoException(e, service);
-        } 
+        }
     }
 
-    public FeamCancelarMTRResposta cancelarMTR(String token, String chave, FeamCancelarMTR feamCancelarMTR) throws FeamException {
+    public FeamCancelarMTRResposta cancelarMTR(String token, String chave, FeamCancelarMTR feamCancelarMTR)
+            throws FeamException {
         try {
             token = "Bearer " + token;
             return service.cancelarMTR(token, chave, feamCancelarMTR);
@@ -57,58 +58,51 @@ public class FeamService {
         } catch (ProcessingException | WebApplicationException e) {
             e.printStackTrace();
             throw new ErroServicoRemotoException(e, service);
-        } 
-    }   
+        }
+    }
 
     public FeamLoginRespostaWS gettoken(FeamLogin feamLogin) throws FeamException, IOException, SQLException {
         try {
             Logger log = logArquivo.start();
-            FeamLoginRespostaWS       feamLoginRespostaWS       = new FeamLoginRespostaWS();
-                        
+            FeamLoginRespostaWS feamLoginRespostaWS = new FeamLoginRespostaWS();
+
             // Recupera informacoes da unidade do Gerador
-            if (feamLogin.getPessoaCodigo() == null || feamLogin.getPessoaCodigo() <= 0)
-            {     
-                log.info("Recuperando a unidade..."); 
+            if (feamLogin.getPessoaCodigo() == null || feamLogin.getPessoaCodigo() <= 0) {
+                log.info("Recuperando a unidade...");
                 FeamConectaBanco conecta = new FeamConectaBanco();
                 conecta.conexao();
-            
+
                 FeamControlePesquisaUsuarioUnidades feamUnidades = new FeamControlePesquisaUsuarioUnidades();
-                List<FeamUsuarioUnidade> feamUsuarioUnidade = feamUnidades.pesquisaUsuarioUnidades(feamLogin.getPessoaCnpj());
-                for (int i=0; i < feamUsuarioUnidade.size(); i++)
-                {                    
+                List<FeamUsuarioUnidade> feamUsuarioUnidade = feamUnidades
+                        .pesquisaUsuarioUnidades(feamLogin.getPessoaCnpj());
+                for (int i = 0; i < feamUsuarioUnidade.size(); i++) {
                     feamLogin.setPessoaCodigo(Integer.parseInt(feamUsuarioUnidade.get(i).getCodigo()));
-                    
-                    feamLoginRespostaWS = service.gettoken(feamLogin);                    
 
-                    if(feamLoginRespostaWS.getRetornoCodigo() == 0)
-                    {
-                        // Logou com sucesso! Atualiza unidade na base de dados.                        
-                        String sql = "EXEC dbo.sp_cadastro_cliente_alterar_unidade '" + 
-                                      feamLogin.getPessoaCnpj().trim() + "', NULL , NULL, NULL, NULL, '" +
-                                      feamLogin.getPessoaCodigo().toString() + "', NULL, NULL, 'admin'";															 
+                    feamLoginRespostaWS = service.gettoken(feamLogin);
 
-                        try 
-                        {
+                    if (feamLoginRespostaWS.getRetornoCodigo() == 0) {
+                        // Logou com sucesso! Atualiza unidade na base de dados.
+                        String sql = "EXEC dbo.sp_cadastro_cliente_alterar_unidade '" +
+                                feamLogin.getPessoaCnpj().trim() + "', NULL , NULL, NULL, NULL, '" +
+                                feamLogin.getPessoaCodigo().toString() + "', NULL, NULL, 'admin'";
+
+                        try {
                             PreparedStatement pst;
                             pst = conecta.conn.prepareStatement(sql);
                             pst.executeUpdate();
-                        }
-                        catch (SQLException ex)
-                        {
+                        } catch (SQLException ex) {
                             log.info("Erro ao alterar unidade do cliente! " + ex);
                             continue;
                         }
 
                         break;
                     }
-                }  
+                }
                 conecta.desconecta();
-            }
-            else
-            {            
+            } else {
                 feamLoginRespostaWS = service.gettoken(feamLogin);
-            }                                                
-            
+            }
+
             return feamLoginRespostaWS;
         } catch (FeamException e) {
             e.printStackTrace();
@@ -116,6 +110,19 @@ public class FeamService {
         } catch (ProcessingException | WebApplicationException e) {
             e.printStackTrace();
             throw new ErroServicoRemotoException(e, service);
-        } 
-    }   
+        }
+    }
+
+    public byte[] buscaPdfManifestoPorCodigoBarras(String token, String chave, String codigoBarra)  throws FeamException{
+        try {
+            token = "Bearer " + token;
+            return service.buscaPdfManifestoPorCodigoBarras(token, chave, codigoBarra);
+        } catch (FeamException e) {
+            e.printStackTrace();
+            throw e;
+        } catch (ProcessingException | WebApplicationException e) {
+            e.printStackTrace();
+            throw new ErroServicoRemotoException(e, service);
+        }
+    }
 }

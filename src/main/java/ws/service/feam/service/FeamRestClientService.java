@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestHeader;
+import org.jboss.resteasy.reactive.RestPath;
 
 import ws.service.feam.exception.FeamException;
 import ws.service.feam.modelo.gerador.FeamGerador;
@@ -52,4 +53,10 @@ public interface FeamRestClientService {
     @Path("/ControllerServlet")
     public Response pesquisaUsuarioUnidades(@RestForm String txtCnpj, 
                                             @RestForm String acao) throws FeamException;
+
+    @POST
+    @Path("/api/buscaPdfManifestoPorCodigoBarras/{codigoBarras}")
+    public byte[] buscaPdfManifestoPorCodigoBarras(@RestHeader("Authorization") String token, 
+                                    @RestHeader("chave_feam") String chave, 
+                                    @RestPath String codigoBarras) throws FeamException;
 }

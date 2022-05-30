@@ -1,6 +1,8 @@
 package ws.service.feam.resource;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.SQLException;
 
 import javax.inject.Inject;
@@ -10,9 +12,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestHeader;
 
 import ws.service.feam.exception.FeamException;
+import ws.service.feam.exception.geral.ErroInternoException;
 import ws.service.feam.modelo.gerador.FeamGerador;
 import ws.service.feam.modelo.gerador.FeamResposta;
 import ws.service.feam.modelo.login.FeamLogin;
@@ -20,6 +24,7 @@ import ws.service.feam.modelo.login.FeamLoginRespostaWS;
 import ws.service.feam.modelo.manifesto.FeamCancelarMTR;
 import ws.service.feam.modelo.manifesto.FeamCancelarMTRResposta;
 import ws.service.feam.service.FeamService;
+import ws.service.feam.util.Util;
 
 @Path("/feam/api/v1/resource")
 public class FeamResource {
@@ -39,7 +44,9 @@ public class FeamResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/mtr/cancelar")
-    public FeamCancelarMTRResposta cancelarMTR(@RestHeader("token") String token, @RestHeader("chave") String chave, FeamCancelarMTR feamCancelarMTR) throws FeamException {
+    public FeamCancelarMTRResposta cancelarMTR(@RestHeader("token") String token, 
+                                               @RestHeader("chave") String chave, 
+                                               FeamCancelarMTR feamCancelarMTR) throws FeamException {
         return service.cancelarMTR(token, chave, feamCancelarMTR);
     }
 
@@ -49,5 +56,45 @@ public class FeamResource {
     @Path("/gettoken")
     public FeamLoginRespostaWS gettoken(FeamLogin feamLogin) throws FeamException, IOException, SQLException {
         return service.gettoken(feamLogin);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("/mtr/download")
+    public byte[] buscaPdfManifestoPorCodigoBarras(@RestHeader("token") String token, 
+                                    @RestHeader("chave") String chave,
+                                    @RestForm String cnpjGerador, 
+                                    @RestForm String codSolicitacao,
+                                    @RestForm String codigoBarra) throws FeamException {
+    	byte[] resposta = service.buscaPdfManifestoPorCodigoBarras(token, chave, codigoBarra);
+
+        String dataAtual    = Util.getDataAtual("yyyy-MM-dd HH:mm:ss.SSS");
+
+        String diretorioArquivo = Util.getDiretorioPasta("../Z/SIGRA/MTR/FEAM/", dataAtual);
+
+        String diretorioTemp = "../S/Temp/";
+
+        String nomeArquivo = "FEAM - " + cnpjGerador + " - " + codigoBarra + " - " + codSolicitacao + ".pdf"; 
+        String caminhoArquivo = diretorioArquivo + nomeArquivo;
+
+        String caminhoArquivoTemp = diretorioTemp + nomeArquivo;
+        try{
+                     
+            try (OutputStream temp = new FileOutputStream(caminhoArquivo)) {
+                temp.write(resposta);
+                temp.close();
+            }
+
+            try (OutputStream temp = new FileOutputStream(caminhoArquivoTemp)) {
+                temp.write(resposta);
+                temp.close();
+            }
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+            throw new ErroInternoException(ex);
+        }
+            
+        return resposta;
     }
 }
