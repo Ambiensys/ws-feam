@@ -20,6 +20,7 @@ import ws.service.feam.modelo.gerador.FeamGerador;
 import ws.service.feam.modelo.gerador.FeamResposta;
 import ws.service.feam.modelo.login.FeamLogin;
 import ws.service.feam.modelo.login.FeamLoginRespostaWS;
+import ws.service.feam.modelo.manifesto.FeamCancelarMTR;
 import ws.service.feam.modelo.manifesto.FeamCancelarMTRResposta;
 import ws.service.feam.modelo.unidade.FeamUsuarioUnidade;
 import ws.service.feam.util.FeamLogArquivo;
@@ -46,10 +47,10 @@ public class FeamService {
         } 
     }
 
-    public FeamCancelarMTRResposta cancelarMTR(String cookie, String codManifesto, String justificativa) throws FeamException {
+    public FeamCancelarMTRResposta cancelarMTR(String token, String chave, FeamCancelarMTR feamCancelarMTR) throws FeamException {
         try {
-            String acao = "cancelaManifesto";
-            return service.cancelarMTR(cookie, codManifesto, justificativa, acao);
+            token = "Bearer " + token;
+            return service.cancelarMTR(token, chave, feamCancelarMTR);
         } catch (FeamException e) {
             e.printStackTrace();
             throw e;
