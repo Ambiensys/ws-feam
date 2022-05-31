@@ -63,6 +63,7 @@ public class FeamResource {
     @Path("/mtr/download")
     public byte[] buscaPdfManifestoPorCodigoBarras(@RestHeader("token") String token, 
                                     @RestHeader("chave") String chave,
+                                    @RestForm String nmMtr,
                                     @RestForm String cnpjGerador, 
                                     @RestForm String codSolicitacao,
                                     @RestForm String codigoBarra) throws FeamException {
@@ -74,7 +75,7 @@ public class FeamResource {
 
         String diretorioTemp = "../S/Temp/";
 
-        String nomeArquivo = "FEAM - " + cnpjGerador + " - " + codigoBarra + " - " + codSolicitacao + ".pdf"; 
+        String nomeArquivo = "FEAM - " + cnpjGerador + " - " + nmMtr + " - " + codSolicitacao + ".pdf"; 
         String caminhoArquivo = diretorioArquivo + nomeArquivo;
 
         String caminhoArquivoTemp = diretorioTemp + nomeArquivo;
