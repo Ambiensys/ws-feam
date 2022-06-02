@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestHeader;
+import org.jboss.resteasy.reactive.RestPath;
 
 import ws.service.feam.exception.FeamException;
 import ws.service.feam.exception.geral.ErroInternoException;
@@ -53,9 +54,9 @@ public class FeamResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/gettoken")
-    public FeamLoginRespostaWS gettoken(FeamLogin feamLogin) throws FeamException, IOException, SQLException {
-        return service.gettoken(feamLogin);
+    @Path("/gettoken/{cdSolicitacao}")
+    public FeamLoginRespostaWS gettoken(FeamLogin feamLogin, @RestPath Integer cdSolicitacao ) throws FeamException, IOException, SQLException {
+        return service.gettoken(feamLogin, cdSolicitacao);
     }
 
     @POST

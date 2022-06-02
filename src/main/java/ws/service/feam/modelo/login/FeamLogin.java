@@ -19,8 +19,8 @@ public class FeamLogin {
         return pessoaCnpj;
     }
 
-    public void setPessoaCNPJ(String pessoaCNPJ) {
-        this.pessoaCnpj = pessoaCNPJ;
+    public void setPessoaCnpj(String pessoaCnpj) {
+        this.pessoaCnpj = pessoaCnpj;
     }
 
     public String getUsuarioCpf() {
