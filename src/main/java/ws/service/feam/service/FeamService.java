@@ -196,9 +196,12 @@ public class FeamService {
         resposta = jsonb.fromJson(response.readEntity(String.class), FeamAutenticacaoResposta.class);
 
         String headersCookie = response.getHeaderString("Set-Cookie");
+
+        
         if (headersCookie != null && !headersCookie.trim().isEmpty()) {
             List<String> Cookielist = Arrays.asList(headersCookie.split(","));
 
+            
             String jsessionid = (Cookielist.get(0));
             String servidor = (Cookielist.get(1));
             String cookie = servidor + jsessionid;
@@ -229,7 +232,7 @@ public class FeamService {
                 }
             }
         }
-        return null;
+        return resposta;
     }
 
     public Integer logoffUsuario(String cookie) throws IOException, SQLException {

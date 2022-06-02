@@ -74,7 +74,7 @@ public interface FeamRestClientService {
     @Path("/LogoffUsuarioServlet")
     public Integer logoffUsuario(@RestHeader("Cookie") String cookie) throws FeamException;
 
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/ControllerServlet")
     public Response getAutenticacao(@RestForm String acao,
