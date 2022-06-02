@@ -17,7 +17,6 @@ import ws.service.feam.exception.FeamException;
 import ws.service.feam.modelo.configuracao.FeamIpResposta;
 import ws.service.feam.modelo.gerador.FeamGerador;
 import ws.service.feam.modelo.gerador.FeamResposta;
-import ws.service.feam.modelo.login.FeamAutenticacaoResposta;
 import ws.service.feam.modelo.login.FeamLogin;
 import ws.service.feam.modelo.login.FeamLoginRespostaWS;
 import ws.service.feam.modelo.manifesto.FeamCancelarMTR;

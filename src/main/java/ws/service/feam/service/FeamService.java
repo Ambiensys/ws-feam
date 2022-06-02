@@ -3,10 +3,7 @@ package ws.service.feam.service;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -29,6 +26,7 @@ import ws.service.feam.modelo.gerador.FeamGerador;
 import ws.service.feam.modelo.gerador.FeamResposta;
 import ws.service.feam.modelo.login.FeamAutenticacaoResposta;
 import ws.service.feam.modelo.login.FeamLogin;
+import ws.service.feam.modelo.login.FeamLoginCdCliente;
 import ws.service.feam.modelo.login.FeamLoginRespostaWS;
 import ws.service.feam.modelo.manifesto.FeamCancelarMTR;
 import ws.service.feam.modelo.manifesto.FeamCancelarMTRResposta;
@@ -269,17 +267,17 @@ public class FeamService {
         }
     }
 
-    public FeamLoginRespostaWS gettoken(FeamLogin feamLogin, Integer cdSolicitacao)
+    public FeamLoginRespostaWS gettoken(FeamLoginCdCliente login)
             throws FeamException, IOException, SQLException {
         try {
             Logger log = logArquivo.start();
-
+            FeamLogin feamLogin = login.getFeamLogin();
             try {
-
+                
                 // Declare variaveis de login
                 FeamConectaBanco conecta = new FeamConectaBanco();
 
-                String consultaMTR = "select in_ip_cadastrado from clientes_sistemas where id_sistema='FEAM' and cd_cliente= " + cdSolicitacao;
+                String consultaMTR = "select in_ip_cadastrado from clientes_sistemas where id_sistema='FEAM' and cd_cliente= " + login.getCdCliente();
 
                 conecta.conexao();
                 conecta.executaSQL(consultaMTR);
@@ -294,8 +292,6 @@ public class FeamService {
                 // Posiciona cursor no inicio e retoma loop
                 conecta.rs.beforeFirst();
                 while (conecta.rs.next()) {
-                    cdSolicitacao = conecta.rs.getInt("cd_solicitacao");
-                    log.info("emitirMTRFeam - Processando solicitacao : " + cdSolicitacao);
 
                     if (conecta.rs.getString("in_ip_cadastrado") == null || !conecta.rs.getString("in_ip_cadastrado").equals("S")) {
                         log.info("emitirMTRFeam - Vai cadastrar os IP's");

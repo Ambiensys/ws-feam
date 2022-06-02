@@ -20,7 +20,7 @@ import ws.service.feam.exception.FeamException;
 import ws.service.feam.exception.geral.ErroInternoException;
 import ws.service.feam.modelo.gerador.FeamGerador;
 import ws.service.feam.modelo.gerador.FeamResposta;
-import ws.service.feam.modelo.login.FeamLogin;
+import ws.service.feam.modelo.login.FeamLoginCdCliente;
 import ws.service.feam.modelo.login.FeamLoginRespostaWS;
 import ws.service.feam.modelo.manifesto.FeamCancelarMTR;
 import ws.service.feam.modelo.manifesto.FeamCancelarMTRResposta;
@@ -54,11 +54,13 @@ public class FeamResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/gettoken/{cdSolicitacao}")
-    public FeamLoginRespostaWS gettoken(FeamLogin feamLogin, @RestPath Integer cdSolicitacao ) throws FeamException, IOException, SQLException {
-        return service.gettoken(feamLogin, cdSolicitacao);
+    @Path("/gettoken")
+    public FeamLoginRespostaWS gettoken(FeamLoginCdCliente feamLogin) throws FeamException, IOException, SQLException {
+        return service.gettoken(feamLogin);
     }
+    
 
+    
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/mtr/download")
