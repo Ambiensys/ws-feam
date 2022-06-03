@@ -63,11 +63,13 @@ public interface FeamRestClientService {
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/ControllerServlet?acao=gravarIPAcessoWS")
-    public FeamIpResposta salvarIP(@RestHeader("Cookie") String cookie,
+    public FeamIpResposta salvarIP(
             @RestForm String pessoaCodigo,
             @RestForm String ip,
-            @RestForm String nome) throws FeamException;
+            @RestForm String nome,
+            @RestHeader("Cookie") String cookie) throws FeamException;
 
     @GET
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

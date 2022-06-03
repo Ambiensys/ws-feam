@@ -2,16 +2,16 @@ package ws.service.feam.modelo.configuracao;
 
 public class FeamIpResposta {
 
-	private String ok;
+	private Boolean ok;
 	private String msg;
 
 
 
-	public String getOk() {
+	public Boolean getOk() {
 		return ok;
 	}
 
-	public void setOk(String ok) {
+	public void setOk(Boolean ok) {
 		this.ok = ok;
 	}
 

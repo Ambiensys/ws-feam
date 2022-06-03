@@ -59,7 +59,7 @@ public class FeamService {
     void cadastraIpFeam(FeamLogin feamLogin) throws IOException, SQLException, FeamException {
         Logger log = logArquivo.start();
         FeamAutenticacaoResposta feamAutenticacaoResposta = this.autenticacao(feamLogin);
-
+        
         // Cadastra IP Principal Horizons
         FeamIpResposta retornoFeamIP1 = service.salvarIP(feamLogin.getPessoaCodigo().toString(), "187.95.144.250",
                 "IP Principal Horizons", feamAutenticacaoResposta.getCookie());
@@ -72,6 +72,7 @@ public class FeamService {
         FeamIpResposta retornoFeamIP3 = service.salvarIP(feamLogin.getPessoaCodigo().toString(), "168.0.134.202",
                 "IP Robo Ambiensys", feamAutenticacaoResposta.getCookie());
 
+   
         String sql = "";
 
         sql += " UPDATE clientes_sistemas " +
@@ -91,6 +92,7 @@ public class FeamService {
         } catch (SQLException ex) {
             log.info("Erro ao salvar IP! " + ex);
         }
+
     }
 
     public FeamAutenticacaoResposta autenticacao(FeamLogin feamLogin) throws FeamException, IOException, SQLException {
@@ -295,7 +297,7 @@ public class FeamService {
                 // Posiciona cursor no inicio e retoma loop
                 conecta.rs.beforeFirst();
                 while (conecta.rs.next()) {
-
+                    
                     if (conecta.rs.getString("in_ip_cadastrado") == null || !conecta.rs.getString("in_ip_cadastrado").equals("S")) {
                         log.info("emitirMTRFeam - Vai cadastrar os IP's");
                         cadastraIpFeam(feamLogin);
@@ -313,7 +315,7 @@ public class FeamService {
             }
 
             FeamLoginRespostaWS feamLoginRespostaWS = new FeamLoginRespostaWS();
-
+           
             // Recupera informacoes da unidade do Gerador
             if (feamLogin.getPessoaCodigo() == null || feamLogin.getPessoaCodigo() <= 0) {
                 log.info("Recuperando a unidade...");
