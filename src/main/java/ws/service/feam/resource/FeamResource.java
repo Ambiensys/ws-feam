@@ -101,4 +101,46 @@ public class FeamResource {
             
         return resposta;
     }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("/cdf/download")
+    public byte[] downloadCdf(@RestHeader("token") String token, 
+                                    @RestHeader("chave") String chave,
+                                    @RestForm String nmCdf,
+                                    @RestForm String cnpjGerador, 
+                                    @RestForm String codSolicitacao) throws FeamException {
+                                        
+        byte[] resposta = service.downloadCdf(token, chave, nmCdf);
+
+        String dataAtual    = Util.getDataAtual("yyyy-MM-dd HH:mm:ss.SSS");
+
+        String diretorioArquivo = Util.getDiretorioPasta("../Z/SIGRA/MTR/FEAM/", dataAtual);
+
+        String diretorioTemp = "../S/Temp/";
+
+        String nomeArquivo = "FEAM - " + cnpjGerador + " - " + nmCdf + " - " + codSolicitacao + ".pdf"; 
+        String caminhoArquivo = diretorioArquivo + nomeArquivo;
+
+        String caminhoArquivoTemp = diretorioTemp + nomeArquivo;
+        try{
+                     
+            try (OutputStream temp = new FileOutputStream(caminhoArquivo)) {
+                temp.write(resposta);
+                temp.close();
+            }
+
+            try (OutputStream temp = new FileOutputStream(caminhoArquivoTemp)) {
+                temp.write(resposta);
+                temp.close();
+            }
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+            throw new ErroInternoException(ex);
+        }
+            
+        return resposta;
+    }
+
 }

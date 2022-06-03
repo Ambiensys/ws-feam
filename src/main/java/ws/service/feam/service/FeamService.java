@@ -376,4 +376,18 @@ public class FeamService {
             throw new ErroServicoRemotoException(e, service);
         }
     }
+
+    public byte[] downloadCdf(String token, String chave, String nmCdf)
+            throws FeamException {
+        try {
+            token = "Bearer " + token;
+            return service.downloadCdf(token, chave, nmCdf);
+        } catch (FeamException e) {
+            e.printStackTrace();
+            throw e;
+        } catch (ProcessingException | WebApplicationException e) {
+            e.printStackTrace();
+            throw new ErroServicoRemotoException(e, service);
+        }
+    }
 }
