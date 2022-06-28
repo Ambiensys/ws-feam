@@ -37,7 +37,7 @@ public class ResponseException implements ResponseExceptionMapper<Exception> {
 			System.out.println("401 ");
 			
 			erroBean.setStatus(response.getStatus());
-			erroBean.setMensagem("O token de acesso ao SIGOR não é válido!! Não Autorizado!!");
+			erroBean.setMensagem("O token de acesso ao FEAM não é válido!! Não Autorizado!!");
 			erroBean.setErro(true);
 
 			if(response.getEntity() != null){
@@ -57,7 +57,7 @@ public class ResponseException implements ResponseExceptionMapper<Exception> {
 		case 500:
 				
 			erroBean.setStatus(response.getStatus());
-			erroBean.setMensagem("Problemas com serviço externo do SIGOR");
+			erroBean.setMensagem("Problemas com serviço externo do FEAM");
 			erroBean.setErro(true);
 
 			if(response.getEntity() != null){

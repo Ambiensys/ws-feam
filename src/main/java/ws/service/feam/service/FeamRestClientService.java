@@ -8,12 +8,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestHeader;
 import org.jboss.resteasy.reactive.RestPath;
 
 import ws.service.feam.exception.FeamException;
+import ws.service.feam.exception.mapper.ResponseException;
 import ws.service.feam.modelo.configuracao.FeamIpResposta;
 import ws.service.feam.modelo.gerador.FeamGerador;
 import ws.service.feam.modelo.gerador.FeamResposta;
@@ -24,6 +26,7 @@ import ws.service.feam.modelo.manifesto.FeamCancelarMTRResposta;
 
 @Path("")
 @RegisterRestClient
+@RegisterProvider(ResponseException.class)
 public interface FeamRestClientService {
 
         @POST

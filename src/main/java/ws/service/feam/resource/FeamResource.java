@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -14,10 +15,10 @@ import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestHeader;
-import org.jboss.resteasy.reactive.RestPath;
 
 import ws.service.feam.exception.FeamException;
 import ws.service.feam.exception.geral.ErroInternoException;
+import ws.service.feam.exception.geral.NotFoundException;
 import ws.service.feam.modelo.gerador.FeamGerador;
 import ws.service.feam.modelo.gerador.FeamResposta;
 import ws.service.feam.modelo.login.FeamLoginCdCliente;
@@ -28,6 +29,7 @@ import ws.service.feam.service.FeamService;
 import ws.service.feam.util.Util;
 
 @Path("/feam/api/v1/resource")
+@RolesAllowed("FEAMSERVICEROLE")
 public class FeamResource {
 
     @Inject
@@ -72,6 +74,8 @@ public class FeamResource {
                                     @RestForm String codigoBarra) throws FeamException {
     	byte[] resposta = service.buscaPdfManifestoPorCodigoBarras(token, chave, codigoBarra);
 
+        if(resposta == null ) throw new NotFoundException("Sem dados!");
+
         String dataAtual    = Util.getDataAtual("yyyy-MM-dd HH:mm:ss.SSS");
 
         String diretorioArquivo = Util.getDiretorioPasta("../Z/SIGRA/MTR/FEAM/", dataAtual);
@@ -112,6 +116,8 @@ public class FeamResource {
                                     @RestForm String codSolicitacao) throws FeamException {
                                         
         byte[] resposta = service.downloadCdf(token, chave, nmCdf);
+
+        if(resposta == null ) throw new NotFoundException("Sem dados!");
 
         String dataAtual    = Util.getDataAtual("yyyy-MM-dd HH:mm:ss.SSS");
 

@@ -26,9 +26,9 @@ public class FeamConectaBanco
 
     private String caminho = (databasePath != null && !databasePath.isEmpty() ? databasePath : "jdbc:sqlserver://10.222.0.138:1433;databaseName=SIGRAHOM");
 
-    private String usuario = (usuarioConfig != null && !usuarioConfig.isEmpty() ? usuarioConfig : "sa");
+    private String usuario = (usuarioConfig != null && !usuarioConfig.isEmpty() ? usuarioConfig : "sigraweb");
 
-    private String senha = (senhaConfig != null && !senhaConfig.isEmpty() ? senhaConfig : "Ambiensys123");
+    private String senha = (senhaConfig != null && !senhaConfig.isEmpty() ? senhaConfig : "8Ph#%kZD");
 
     
     // Variveis Obrigatorias para conexão com o Banco de Dados
