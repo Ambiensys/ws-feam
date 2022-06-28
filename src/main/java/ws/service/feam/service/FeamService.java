@@ -21,6 +21,7 @@ import ws.service.feam.dao.FeamConectaBanco;
 import ws.service.feam.exception.FeamException;
 import ws.service.feam.exception.geral.ErroInternoException;
 import ws.service.feam.exception.geral.ErroServicoRemotoException;
+import ws.service.feam.exception.geral.NotFoundException;
 import ws.service.feam.modelo.configuracao.FeamIpResposta;
 import ws.service.feam.modelo.gerador.FeamGerador;
 import ws.service.feam.modelo.gerador.FeamResposta;
@@ -60,6 +61,8 @@ public class FeamService {
         Logger log = logArquivo.start();
         FeamAutenticacaoResposta feamAutenticacaoResposta = this.autenticacao(feamLogin);
         
+        if(feamAutenticacaoResposta == null) throw new NotFoundException("Não foi possível autenticar o usuário"); 
+
         // Cadastra IP Principal Horizons
         FeamIpResposta retornoFeamIP1 = service.salvarIP(feamLogin.getPessoaCodigo().toString(), "187.95.144.250",
                 "IP Principal Horizons", feamAutenticacaoResposta.getCookie());
@@ -266,9 +269,6 @@ public class FeamService {
         } catch (FeamException e) {
             e.printStackTrace();
             throw e;
-        } catch (ProcessingException | WebApplicationException e) {
-            e.printStackTrace();
-            throw new ErroServicoRemotoException(e, service);
         }
     }
 
@@ -357,10 +357,7 @@ public class FeamService {
         } catch (FeamException e) {
             e.printStackTrace();
             throw e;
-        } catch (ProcessingException | WebApplicationException e) {
-            e.printStackTrace();
-            throw new ErroServicoRemotoException(e, service);
-        }
+        } 
     }
 
     public byte[] buscaPdfManifestoPorCodigoBarras(String token, String chave, String codigoBarra)
@@ -371,10 +368,7 @@ public class FeamService {
         } catch (FeamException e) {
             e.printStackTrace();
             throw e;
-        } catch (ProcessingException | WebApplicationException e) {
-            e.printStackTrace();
-            throw new ErroServicoRemotoException(e, service);
-        }
+        } 
     }
 
     public byte[] downloadCdf(String token, String chave, String nmCdf)
@@ -385,9 +379,6 @@ public class FeamService {
         } catch (FeamException e) {
             e.printStackTrace();
             throw e;
-        } catch (ProcessingException | WebApplicationException e) {
-            e.printStackTrace();
-            throw new ErroServicoRemotoException(e, service);
-        }
+        } 
     }
 }
