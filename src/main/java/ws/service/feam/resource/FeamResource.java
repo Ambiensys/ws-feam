@@ -121,7 +121,7 @@ public class FeamResource {
 
         String dataAtual    = Util.getDataAtual("yyyy-MM-dd HH:mm:ss.SSS");
 
-        String diretorioArquivo = Util.getDiretorioPasta("../Z/SIGRA/MTR/FEAM/", dataAtual);
+        String diretorioArquivo = Util.getDiretorioPasta("../Z/SIGRA/CDF/FEAM/", dataAtual);
 
         String diretorioTemp = "../S/Temp/";
 
